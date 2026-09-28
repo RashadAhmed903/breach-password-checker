@@ -1,15 +1,16 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from hibp import count_password_breaches
 from scorer import estimate_crack_seconds, estimate_entropy_bits, rate_password
+
 app = FastAPI()
+
+
 class PasswordCheckRequest(BaseModel):
     password: str
 
-@app.get("/")
-def read_root():
-    return {"Massage" : "Hello from the breach and password health checker!"}
 
 @app.post("/check-password")
 def check_password(request: PasswordCheckRequest):
@@ -24,11 +25,13 @@ def check_password(request: PasswordCheckRequest):
         rating = rate_password(entropy_bits)
         crack_seconds = estimate_crack_seconds(entropy_bits)
 
-
     return {
-        "breached": breach_count > 0,
+        "breached": is_breached,
         "breach_count": breach_count,
         "entropy_bits": round(entropy_bits, 1),
         "crack_seconds": crack_seconds,
         "rating": rating,
     }
+
+
+app.mount("/", StaticFiles(directory="static", html=True), name="static")

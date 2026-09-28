@@ -1,0 +1,26 @@
+body {
+  font-family: sans-serif;
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+input, button {
+  font-size: 16px;
+  padding: 8px;
+}
+
+#result {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 6px;
+  display: none;
+}
+
+.safe {
+  background-color: #d4edda;
+}
+
+.unsafe {
+  background-color: #f8d7da;
+}
